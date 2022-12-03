@@ -66,23 +66,23 @@ void Floyd (Grafo grafo) {
   }
 }
 
-void Kruskal (Grafo grafo) {
+bool Kruskal (Grafo grafo, std::vector<AristaKruskal>& solMejor) {
   std::priority_queue<AristaKruskal, std::vector<AristaKruskal>, OrderOfPriority> APO;
-  std::set<Par<Vertice>> diccionario;
+  std::vector<Par<Vertice*>> diccionario;
   ConjuntoDeConjuntos<Vertice*> CC;
-  std::vector<AristaKruskal> solMejor;
   Vertice* v = grafo.PrimerVertice();
   int n = 0;
   while (v != nullptr) {
     CC.AgregarSubConjunto(v);
     Vertice* va = grafo.PrimerVerticeAdyacente(v);
     while (va != nullptr) {
-      if (true/*APO.Existe((v,va))*/) {
+      if (!Existe<Par<Vertice*>>(diccionario, Par<Vertice*>(v, va))) {
         AristaKruskal nuevaArista;
         nuevaArista.salida = v;
         nuevaArista.llegada = va;
         nuevaArista.peso = grafo.Peso(v, va);
         APO.push(nuevaArista);
+        diccionario.push_back(Par<Vertice*>(v, va));
       }
       va = grafo.SiguienteVerticeAdyacente(v, va);
     }
@@ -90,7 +90,7 @@ void Kruskal (Grafo grafo) {
     ++n;
   }
   int TotalAristasEscogidas = 0;
-  while (TotalAristasEscogidas < n-1) {
+  while (TotalAristasEscogidas < n-1 && !APO.empty()) {
     AristaKruskal arista = APO.top();
     APO.pop();
     std::set<Vertice*>* conjunto1 = CC.buscarElemento(arista.salida);
@@ -101,6 +101,7 @@ void Kruskal (Grafo grafo) {
       CC.unir(conjunto1, conjunto2);
     }
   }
+  return TotalAristasEscogidas == n-1;
 }
 
 

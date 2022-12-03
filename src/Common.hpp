@@ -47,11 +47,23 @@ class ConjuntoDeConjuntos {
 template <class T>
 class Par {
  public:
-  T* objeto1;
-  T* objeto2;
-  bool operator==(Par&) {
-    return true;
+  Par(T objeto1, T objeto2) : objeto1(objeto1), objeto2(objeto2){}
+  T objeto1;
+  T objeto2;
+  bool operator==(const Par& comparacion) {
+    return comparacion.objeto1 == this->objeto1 || comparacion.objeto1 == this->objeto2
+      && comparacion.objeto2 == this->objeto1 || comparacion.objeto2 == this->objeto2;
   }
 };
+
+template <class T>
+bool Existe(std::vector<T> vector, T objeto) {
+  for (int i = 0; i < vector.capacity(); ++i) {
+    if (vector[i] == objeto) {
+      return true;
+    }
+  }
+  return false;
+}
 
 #endif
