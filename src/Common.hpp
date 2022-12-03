@@ -67,7 +67,7 @@ class ConjuntoDeConjuntos {
   }
 
   int count() {
-    return this->setOfSets->capacity();
+    return this->setOfSets.capacity();
   }
 
   int emptySets() {
