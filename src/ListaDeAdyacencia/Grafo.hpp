@@ -64,10 +64,10 @@ class Grafo {
   char Etiqueta(Vertice* actual);
 
   /// Efecto: Agrega una arista entre un par de vértices.
-  /// Requiere: Requiere el grafo inicializado y ambos vértices
+  /// Requiere: Requiere el grafo inicializado, ambos vértices y el peso
   /// válidos en el grafo.
   /// Modifica: Agrega una nueva arista entre el par de vértices.
-  void AgregarArista(Vertice* vertice1, Vertice* vertice2);
+  void AgregarArista(Vertice* vertice1, Vertice* vertice2, int peso);
 
   /// Efecto: Elimina la arista entre un par de vértices.
   /// Requiere: Requiere el grafo inicializado y ambos vértices válidos en el grafo.

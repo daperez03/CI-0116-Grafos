@@ -58,11 +58,13 @@ char Grafo::Etiqueta(Vertice* actual) {
   return actual->etiqueta;
 }
 
-void Grafo::AgregarArista(Vertice* vertice1, Vertice* vertice2) {
+void Grafo::AgregarArista(Vertice* vertice1, Vertice* vertice2, int peso) {
   Arista* nueva1 = new Arista();
   Arista* nueva2 = new Arista();
   nueva1->verticeAdyacente = vertice2;
+  nueva1->peso = peso;
   nueva2->verticeAdyacente = vertice1;
+  nueva2->peso = peso;
   nueva1->siguienteArista = vertice1->siguienteArista;
   nueva2->siguienteArista = vertice2->siguienteArista;
   vertice1->siguienteArista = nueva1;

@@ -93,15 +93,58 @@ bool Kruskal (Grafo grafo, std::vector<AristaKruskal>& solMejor) {
   while (TotalAristasEscogidas < n-1 && !APO.empty()) {
     AristaKruskal arista = APO.top();
     APO.pop();
-    std::set<Vertice*>* conjunto1 = CC.buscarElemento(arista.salida);
-    std::set<Vertice*>* conjunto2 = CC.buscarElemento(arista.llegada);
-    if (conjunto1 != conjunto2) {
+    int identificador1 = CC.buscarElemento(arista.salida);
+    int identificador2 = CC.buscarElemento(arista.llegada);
+    if (identificador1 != identificador1) {
       solMejor.push_back(arista);
       ++TotalAristasEscogidas;
-      CC.unir(conjunto1, conjunto2);
+      CC.unir(identificador1, identificador2);
     }
   }
   return TotalAristasEscogidas == n-1;
 }
 
+void ColorearVertices(Grafo& grafo) {
+  std::map<Vertice*, std::set<Vertice*>> VectorDeAdyacentes;
+  Vertice* v = grafo.PrimerVertice();
+  int n = 0;
+  while (v != nullptr) {
+    Vertice* va = grafo.PrimerVerticeAdyacente(v);
+    std::set<Vertice*> adyacentes;
+    while (va != nullptr) {
+      adyacentes.insert(va);
+      va = grafo.SiguienteVerticeAdyacente(v, va);
+    }
+    VectorDeAdyacentes.insert({v, adyacentes});
+    v = grafo.SiguienteVertice(v);
+    ++n;
+  }
+  ConjuntoDeConjuntos<Vertice*> CC;
+  ConjuntoDeConjuntos<Vertice*> solucion;
+  int solMejor = -1;
+  ColorearVertice(grafo, grafo.PrimerVertice(), CC, VectorDeAdyacentes, solMejor, solucion);
+}
 
+void ColorearVertice(Grafo& grafo, Vertice* v, ConjuntoDeConjuntos<Vertice*>& CC
+  , std::map<Vertice*, std::set<Vertice*>>& VectorDeAdyacentes, int& solMejor
+  , ConjuntoDeConjuntos<Vertice*>& solucion) {
+  int n = grafo.NumVertice();
+  for (int i = 0; i < n; i++) {
+    if(CC.disjuntos(i, VectorDeAdyacentes[v])) {
+      if (CC.count() < i) {
+        CC.AgregarSubConjunto(v);
+      } else {
+        CC.agregarElemento(i, v);
+      }
+      if (grafo.SiguienteVertice(v) == nullptr) {
+        if (CC.count() - CC.emptySets() < solMejor || solMejor == -1) {
+          solMejor = CC.count() - CC.emptySets();
+          solucion = CC;
+        }
+      } else {
+        ColorearVertice(grafo, grafo.SiguienteVertice(v), CC, VectorDeAdyacentes, solMejor, solucion);
+      }
+      CC.borrarElemento(i, v);
+    }
+  }
+}

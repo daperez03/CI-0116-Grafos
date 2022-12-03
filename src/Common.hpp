@@ -25,22 +25,57 @@ class ConjuntoDeConjuntos {
   std::vector<std::set<T>> setOfSets;
  public:
   void AgregarSubConjunto(T elemento) {
-    setOfSets.resize(setOfSets.capacity() + 1);
-    setOfSets[setOfSets.capacity() - 1].insert(elemento);
+    std::set<T> nuevo;
+    nuevo.insert(elemento);
+    setOfSets.push_back(nuevo);
   }
-  std::set<T>* buscarElemento(T elemento) {
-    std::set<T>* conjunto = nullptr;
-    for (int i = 0; i < setOfSets.capacity(); ++i) {
-      if (setOfSets[i].contains(elemento)) {
-        conjunto = &setOfSets[i];
+
+  int buscarElemento(T elemento) {
+    int identificador = -1;
+    for (int i = 0; i < this->setOfSets.capacity(); ++i) {
+      if (this->setOfSets[i].contains(elemento)) {
+        identificador = i;
         break;
       }
     }
-    return conjunto;
+    return identificador;
   }
-  void unir(std::set<T>* conjunto1, std::set<T>* conjunto2) {
-    conjunto1->merge(*conjunto2);
-    conjunto2->clear();
+
+  void unir(int identificador1, int identificador2) {
+    this->setOfSets[identificador1].merge(setOfSets[identificador2]);
+    this->setOfSets[identificador2].clear();
+  }
+
+  void agregarElemento(int identificador, T elemento) {
+    this->setOfSets[identificador].insert(elemento);
+  }
+
+  void borrarElemento(int identificador, T elemento) {
+    this->setOfSets[identificador].erase(elemento);
+  }
+
+  bool disjuntos(int identificador, std::set<T> conjunto1) {
+    bool esDisjunto = false;
+    if (this->setOfSets.capacity() > identificador) {
+      std::set<T> conjunto2 = this->setOfSets[identificador];
+      conjunto1.merge(conjunto2);
+      esDisjunto = conjunto2.size();
+    } else {
+      esDisjunto = true;
+    }
+    return esDisjunto;
+  }
+
+  int count() {
+    return this->setOfSets->capacity();
+  }
+
+  int emptySets() {
+    int emptySets = 0;
+    for (int i = 0; i < setOfSets.capacity(); ++i) {
+      if(this->setOfSets[i].empty()) ++emptySets;
+    }
+    return emptySets;
   }
 };
 
