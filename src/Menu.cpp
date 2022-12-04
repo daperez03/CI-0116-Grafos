@@ -164,6 +164,9 @@ void Floyd(Grafo& grafo) {
 
 void N_VecesDijkstra(Grafo& grafo) {
   output("\t\t\tN veces Dijkstra");
+  std::map<Vertice*, std::map<Vertice*, Vertice*>> solucion;
+  N_VecesDijkstra(grafo, solucion);
+  outputN_VecesDijkstra(grafo, solucion);
 }
 
 void Prim(Grafo& grafo) {

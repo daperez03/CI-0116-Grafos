@@ -83,6 +83,34 @@ void outputFloyd(Matriz(Vertice*)& solucion, std::vector<Vertice*>& vertices) {
   }
 }
 
+void outputN_VecesDijkstra(Grafo& grafo, std::map<Vertice*, std::map<Vertice*, Vertice*>> solucion) {
+  Vertice* v = grafo.PrimerVertice();
+  while (v != nullptr) {
+    std::cout << "\t" << grafo.Etiqueta(v);
+    v = grafo.SiguienteVertice(v);
+  }
+  std::cout << std:: endl;
+  Vertice* v1 = grafo.PrimerVertice();
+  while (v1 != nullptr) {
+    std::cout << grafo.Etiqueta(v1) << "\t";
+    Vertice* v2 = grafo.PrimerVertice();
+    while (v2 != nullptr) {
+      if (v1 != v2) {
+        if (solucion[v1][v2] == v1) {
+          std::cout << "-" << "\t";
+        } else {
+          std::cout << grafo.Etiqueta(solucion[v1][v2]) << "\t";
+        }
+      } else {
+        std::cout << "-" << "\t";
+      }
+      v2 = grafo.SiguienteVertice(v2);
+    }
+    v1 = grafo.SiguienteVertice(v1);
+    std::cout << std::endl;
+  }
+}
+
 void outputPrim(Grafo& grafo, std::map<Vertice*, Vertice*> solucion) {
   Vertice* v = grafo.PrimerVertice();
   v = grafo.SiguienteVertice(v);

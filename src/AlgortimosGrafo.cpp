@@ -135,6 +135,18 @@ void Floyd (Grafo& grafo, Matriz(Vertice*)& conexiones
   }
 }
 
+//-------------------------------N veces Dijkstra-----------------------------
+
+void N_VecesDijkstra(Grafo& grafo, std::map<Vertice*, std::map<Vertice*, Vertice*>>& solucion) {
+  Vertice* v = grafo.PrimerVertice();
+  while (v != nullptr) {
+    std::map<Vertice*, Vertice*> solucionDijkstra;
+    Dijkstra(grafo, v, solucionDijkstra);
+    solucion.insert({v, solucionDijkstra});
+    v = grafo.SiguienteVertice(v);
+  }
+}
+
 //-------------------------------Prim-----------------------------
 
 void Prim(Grafo& grafo, std::map<Vertice*, Vertice*>& solucion) {
