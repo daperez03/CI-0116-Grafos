@@ -2,6 +2,7 @@
 #define COMMONHPP
 #include <set>
 #include <vector>
+#include "Grafo.hpp"
 
 class Vertice;
 
@@ -56,10 +57,10 @@ class ConjuntoDeConjuntos {
 
   bool disjuntos(int identificador, std::set<T> conjunto1) {
     bool esDisjunto = false;
-    if (this->setOfSets.capacity() > identificador) {
+    if (this->setOfSets.size() > identificador) {
       std::set<T> conjunto2 = this->setOfSets[identificador];
       conjunto1.merge(conjunto2);
-      esDisjunto = conjunto2.size();
+      esDisjunto = conjunto2.size() == 0;
     } else {
       esDisjunto = true;
     }
@@ -67,7 +68,7 @@ class ConjuntoDeConjuntos {
   }
 
   int count() {
-    return this->setOfSets.capacity();
+    return this->setOfSets.size();
   }
 
   int emptySets() {
@@ -86,8 +87,8 @@ class Par {
   T objeto1;
   T objeto2;
   bool operator==(const Par& comparacion) {
-    return comparacion.objeto1 == this->objeto1 || comparacion.objeto1 == this->objeto2
-      && comparacion.objeto2 == this->objeto1 || comparacion.objeto2 == this->objeto2;
+    return comparacion.objeto1 == this->objeto2
+      && comparacion.objeto2 == this->objeto1;
   }
 };
 

@@ -6,6 +6,7 @@ class Arista;
 /// Simula un vertice de un grafo
 class Vertice {
  public:
+  Vertice(char etiqueta) : etiqueta(etiqueta) {}
   /// Etiqueta de el vertice
   char etiqueta = '\0';
   /// Puntero a las aristas que contiene el vertice

@@ -23,15 +23,10 @@ void Grafo::Destruir() {
 }
 
 Vertice* Grafo::AgregarVertice(char etiqueta) {
-  Vertice* nuevo = new Vertice();
-  nuevo->etiqueta = etiqueta;
-  if (this->inicio == nullptr) {
-    this->inicio = nuevo;
-  } else {
-    nuevo->siguiente = this->inicio->siguiente;
-    this->inicio->siguiente = nuevo;
-  }
-  return nuevo;
+  Vertice* siguiente = this->inicio;
+  this->inicio = new Vertice(etiqueta);
+  this->inicio->siguiente = siguiente;
+  return this->inicio;
 }
 
 void Grafo::EliminarVertice(Vertice* actual) {
@@ -59,16 +54,18 @@ char Grafo::Etiqueta(Vertice* actual) {
 }
 
 void Grafo::AgregarArista(Vertice* vertice1, Vertice* vertice2, int peso) {
-  Arista* nueva1 = new Arista();
-  Arista* nueva2 = new Arista();
-  nueva1->verticeAdyacente = vertice2;
-  nueva1->peso = peso;
-  nueva2->verticeAdyacente = vertice1;
-  nueva2->peso = peso;
-  nueva1->siguienteArista = vertice1->siguienteArista;
-  nueva2->siguienteArista = vertice2->siguienteArista;
-  vertice1->siguienteArista = nueva1;
-  vertice2->siguienteArista = nueva2;
+  if (buscarArista(vertice1, vertice2) == nullptr) {
+    Arista* nueva1 = new Arista();
+    Arista* nueva2 = new Arista();
+    nueva1->verticeAdyacente = vertice2;
+    nueva1->peso = peso;
+    nueva2->verticeAdyacente = vertice1;
+    nueva2->peso = peso;
+    nueva1->siguienteArista = vertice1->siguienteArista;
+    nueva2->siguienteArista = vertice2->siguienteArista;
+    vertice1->siguienteArista = nueva1;
+    vertice2->siguienteArista = nueva2;
+  }
 }
 
 void Grafo::EliminarArista(Vertice* vertice1, Vertice* vertice2) {
@@ -104,7 +101,7 @@ Vertice* Grafo::PrimerVerticeAdyacente(Vertice* actual) {
 Vertice* Grafo::SiguienteVerticeAdyacente(Vertice* actual, Vertice* ultimoAdyacente) {
   Vertice* adyacente = nullptr;
   Arista* arista = buscarArista(actual, ultimoAdyacente)->siguienteArista;
-  if (actual != nullptr) {
+  if (arista != nullptr) {
     adyacente = arista->verticeAdyacente;
   }
   return adyacente;

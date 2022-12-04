@@ -1,13 +1,8 @@
-#include <vector>
-#include <queue>
-#include <map>
-#include "Common.hpp"
-#include "Grafo.hpp"
-#define Matriz(x) std::vector<std::vector<x>>
-#define infinito -1
+#include "AlgortimosGrafo.hpp"
 
 //-------------------------------Floyd-----------------------------
 
+#include <iostream>
 int obtenerIndice(std::vector<Vertice*>& vertices, Vertice* v) {
   int indice = -1;
   while (v != vertices[++indice]);
@@ -42,21 +37,21 @@ int InitEDA (Grafo& grafo, std::vector<Vertice*>& vertices
       costos[i][j] = grafo.Peso(v, va);
       va = grafo.SiguienteVerticeAdyacente(v,va);
     }
+    v = grafo.SiguienteVertice(v);
   }
   return n;
 }
 
-void Floyd (Grafo grafo) {
-  std::vector<Vertice*> vertices;
+void Floyd (Grafo& grafo, Matriz(Vertice*)& conexiones
+  , std::vector<Vertice*>& vertices) {
   Matriz(int) costos;
-  Matriz(Vertice*) conexiones;
   int n = InitEDA(grafo, vertices, costos, conexiones);
-  for (int pivote = 0; pivote < n-1; pivote++) {
+  for (int pivote = 0; pivote < n; pivote++) {
     for (int i = 0; i < n; ++i) {
       if (i != pivote) {
         for (int j = 0; j < n; ++j) {
           if (i != pivote && i != j) {
-            if (costos[i][pivote] != -infinito && costos[pivote][j] != infinito
+            if (costos[i][pivote] != infinito && costos[pivote][j] != infinito
               && costos[i][j] > costos[i][pivote] + costos[pivote][j]) {
               costos[i][j] = costos[i][pivote] + costos[pivote][j];
               conexiones[i][j] = vertices[pivote];
@@ -70,7 +65,7 @@ void Floyd (Grafo grafo) {
 
 //-------------------------------Kruskal-----------------------------
 
-bool Kruskal (Grafo grafo, std::vector<AristaKruskal>& solMejor) {
+bool Kruskal (Grafo& grafo, std::vector<AristaKruskal>& solMejor) {
   std::priority_queue<AristaKruskal, std::vector<AristaKruskal>, OrderOfPriority> APO;
   std::vector<Par<Vertice*>> diccionario;
   ConjuntoDeConjuntos<Vertice*> conjuntoDeConjuntos;
@@ -99,10 +94,10 @@ bool Kruskal (Grafo grafo, std::vector<AristaKruskal>& solMejor) {
     APO.pop();
     int identificador1 = conjuntoDeConjuntos.buscarElemento(arista.salida);
     int identificador2 = conjuntoDeConjuntos.buscarElemento(arista.llegada);
-    if (identificador1 != identificador1) {
+    if (identificador1 != identificador2) {
       solMejor.push_back(arista);
-      ++TotalAristasEscogidas;
       conjuntoDeConjuntos.unir(identificador1, identificador2);
+      TotalAristasEscogidas++;
     }
   }
   return TotalAristasEscogidas == n-1;
@@ -116,7 +111,7 @@ void ColorearVertice(Grafo& grafo, Vertice* v, ConjuntoDeConjuntos<Vertice*>& co
   int n = grafo.NumVertice();
   for (int i = 0; i < n; i++) {
     if(conjuntoDeConjuntos.disjuntos(i, VectorDeAdyacentes[v])) {
-      if (conjuntoDeConjuntos.count() < i) {
+      if (conjuntoDeConjuntos.count() <= i) {
         conjuntoDeConjuntos.AgregarSubConjunto(v);
       } else {
         conjuntoDeConjuntos.agregarElemento(i, v);
