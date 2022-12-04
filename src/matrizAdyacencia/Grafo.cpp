@@ -5,7 +5,7 @@ void Grafo::Crear() {
 }
 
 void Grafo::Destruir() {
-  this->ultimo = 0;
+  this->ultimo = -1;
 }
 
 Vertice* Grafo::AgregarVertice(char etiqueta) {
@@ -58,7 +58,7 @@ void Grafo::ModificarPeso(Vertice* vertice1, Vertice* vertice2, int peso) {
 int Grafo::Peso(Vertice* vertice1, Vertice* vertice2) {
   int indiceVertice1 = vertice1->indiceVertice;
   int indiceVertice2 = vertice2->indiceVertice;
-  return this->aristas[indiceVertice1][indiceVertice2].peso;
+  return (this->aristas[indiceVertice1][indiceVertice2]).peso;
 }
 
 Vertice* Grafo::PrimerVertice() {
@@ -114,4 +114,8 @@ Vertice* Grafo::SiguienteVerticeAdyacente(Vertice* actual
 
 int Grafo::NumVertice() {
   return this->ultimo + 1;
+}
+
+bool Grafo::ExisteArista(Vertice* v, Vertice* vAdy) {
+  return (this->aristas[v->indiceVertice][vAdy->indiceVertice]).existeArista;
 }

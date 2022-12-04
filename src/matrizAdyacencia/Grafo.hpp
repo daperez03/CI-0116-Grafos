@@ -107,6 +107,8 @@ class Grafo {
   /// Requiere:  Grafo inicializado.
   /// Modifica: No modifica el grafo.
   int NumVertice();
+
+  bool ExisteArista(Vertice* v, Vertice* vAdy);
 };
 
 #endif
