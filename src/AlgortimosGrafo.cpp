@@ -1,8 +1,80 @@
 #include "AlgortimosGrafo.hpp"
+#include <iostream>
+
+//-------------------------------Dijkstra-----------------------------
+
+int InitEDAD(Grafo& grafo, Vertice* vertice, std::map<Vertice*, Vertice*>& solucion
+  , std::map<Vertice*, int>& costos, std::map<Vertice*, bool>& pivotes) {
+  int n = 0;
+  Vertice* v = grafo.PrimerVertice();
+  while (v != nullptr) {
+    if (v != vertice) {
+      solucion.insert({v, vertice});
+      costos.insert({v, infinito});
+      pivotes.insert({v, false});
+    }
+    ++n;
+    v = grafo.SiguienteVertice(v);
+  }
+  Vertice* va = grafo.PrimerVerticeAdyacente(vertice);
+  while (va != nullptr) {
+    costos[va] = grafo.Peso(vertice, va);
+    va = grafo.SiguienteVerticeAdyacente(vertice, va);
+  }
+  return n;
+}
+
+Vertice* SeleccionarPivote(Grafo& grafo, Vertice* vertice
+  , std::map<Vertice*, int>& costos, std::map<Vertice*, bool>& pivotes) {
+  Vertice* v = grafo.PrimerVertice();
+  Vertice* pivote = nullptr;
+  int menorPeso = infinito;
+  while (v != nullptr) {
+    if (v != vertice) {
+      if ((menorPeso == infinito || costos[v] < menorPeso) && !pivotes[v]) {
+        pivote = v;
+        menorPeso = costos[v];
+      }
+    }
+    v = grafo.SiguienteVertice(v);
+  }
+  pivotes[pivote] = true;
+  return pivote;
+}
+
+int buscarPeso(Grafo& grafo, Vertice* pivote, Vertice* v) {
+  int peso = infinito;
+  Vertice* va = grafo.PrimerVerticeAdyacente(pivote);
+  while (va != nullptr && va != v)
+    va = grafo.SiguienteVerticeAdyacente(pivote, va);
+  if (va != nullptr) peso = grafo.Peso(pivote, v);
+  return peso;
+}
+
+void Dijkstra (Grafo& grafo, Vertice* vertice, std::map<Vertice*, Vertice*>& solucion) {
+  std::map<Vertice*, int> costos;
+  std::map<Vertice*, bool> pivotes;
+  int n = InitEDAD(grafo, vertice, solucion, costos, pivotes);
+  for (int i = 0; i < n-2; ++i) {
+    Vertice* pivote = SeleccionarPivote(grafo, vertice, costos, pivotes);
+    Vertice* v = grafo.PrimerVertice();
+    while (v != nullptr) {
+      if (v != vertice && !pivotes[v]) {
+        int pesoPivotaToV = buscarPeso(grafo, pivote, v);
+        if (costos[pivote] != infinito && pesoPivotaToV != infinito
+          && (costos[v] > costos[pivote] + pesoPivotaToV || costos[v] == infinito)) {
+            costos[v] = costos[pivote] + pesoPivotaToV;
+            solucion[v] = pivote;
+        }
+      }
+      v = grafo.SiguienteVertice(v);
+    }
+  }
+}
+
 
 //-------------------------------Floyd-----------------------------
 
-#include <iostream>
 int obtenerIndice(std::vector<Vertice*>& vertices, Vertice* v) {
   int indice = -1;
   while (v != vertices[++indice]);
@@ -59,6 +131,30 @@ void Floyd (Grafo& grafo, Matriz(Vertice*)& conexiones
           }
         }
       }
+    }
+  }
+}
+
+//-------------------------------Prim-----------------------------
+
+void Prim(Grafo& grafo, std::map<Vertice*, Vertice*>& solucion) {
+  Vertice* vertice = grafo.PrimerVertice();
+  std::map<Vertice*, int> costos;
+  std::map<Vertice*, bool> pivotes;
+  int n = InitEDAD(grafo, vertice, solucion, costos, pivotes);
+  for (int i = 0; i < n-2; ++i) {
+    Vertice* pivote = SeleccionarPivote(grafo, vertice, costos, pivotes);
+    Vertice* v = grafo.PrimerVertice();
+    while (v != nullptr) {
+      if (v != vertice && !pivotes[v]) {
+        int peso = buscarPeso(grafo, pivote, v);
+        if (costos[pivote] != infinito && peso != infinito
+          && (costos[v] > peso || costos[v] == infinito)) {
+          costos[v] = peso;
+          solucion[v] = pivote;
+        }
+      }
+      v = grafo.SiguienteVertice(v);
     }
   }
 }
