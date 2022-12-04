@@ -13,6 +13,6 @@
 void Floyd (Grafo& grafo, Matriz(Vertice*)& conexiones
 , std::vector<Vertice*>& vertices);
 bool Kruskal (Grafo& grafo, std::vector<AristaKruskal>& solMejor);
-void ColorearVertices(Grafo& grafo, ConjuntoDeConjuntos<Vertice*>& solucion);
+void ColorearGrafo(Grafo& grafo, ConjuntoDeConjuntos<Vertice*>& solucion);
 
 #endif

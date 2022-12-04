@@ -129,7 +129,7 @@ void ColorearVertice(Grafo& grafo, Vertice* v, ConjuntoDeConjuntos<Vertice*>& co
   }
 }
 
-void ColorearVertices(Grafo& grafo, ConjuntoDeConjuntos<Vertice*>& solucion) {
+void ColorearGrafo(Grafo& grafo, ConjuntoDeConjuntos<Vertice*>& solucion) {
   std::map<Vertice*, std::set<Vertice*>> VectorDeAdyacentes;
   Vertice* v = grafo.PrimerVertice();
   int n = 0;
