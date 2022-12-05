@@ -146,6 +146,11 @@ void Dijkstra(Grafo& grafo) {
   input<char>("Indique el vertice de menor costo que desea hallar", vertice);
   output();
   output("\t\t\tDijkstra");
+  Vertice* v = buscarVertice(grafo, vertice);
+  std::map<Vertice*, Vertice*> solucion;
+  Dijkstra(grafo, v, solucion);
+  outputDijkstra(grafo, v, solucion);
+  output();
 }
 
 void Floyd(Grafo& grafo) {
@@ -159,10 +164,17 @@ void Floyd(Grafo& grafo) {
 
 void N_VecesDijkstra(Grafo& grafo) {
   output("\t\t\tN veces Dijkstra");
+  std::map<Vertice*, std::map<Vertice*, Vertice*>> solucion;
+  N_VecesDijkstra(grafo, solucion);
+  outputN_VecesDijkstra(grafo, solucion);
 }
 
 void Prim(Grafo& grafo) {
   output("\t\t\tPrim");
+  std::map<Vertice*, Vertice*> solucion;
+  Prim(grafo, solucion);
+  outputPrim(grafo, solucion);
+  output();
 }
 
 void Kruskal(Grafo& grafo) {
@@ -217,10 +229,11 @@ void responderUsuario(int opcion, Grafo& grafo) {
 }
 
 int main() {
+  clearTerminal();
   int lista = 1;
   int opcion = -1;
   Grafo grafo;
-  while (opcion != lista - 1) {
+  while (opcion != lista - 1 && !std::cin.eof( )) {
     lista = 1;
     output("\t\t\tMenu del Grafo");
     output("\nOperadores Basicos:");

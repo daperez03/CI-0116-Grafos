@@ -43,6 +43,28 @@ void output(const char* txt, Vertice* vertice) {
   }
 }
 
+void crearTabla(Grafo& grafo, Vertice* vertice, Vertice* v
+  , std::map<Vertice*, Vertice*> solucion, int identacion) {
+  if (v != vertice) {
+    crearTabla(grafo, vertice, solucion[v], solucion, 1);
+  }
+  std::cout << grafo.Etiqueta(v);
+  if (identacion) std::cout << "\t->\t";
+}
+
+void outputDijkstra(Grafo& grafo, Vertice* vertice, std::map<Vertice*, Vertice*> solucion) {
+  Vertice* v = grafo.PrimerVertice();
+  while (v != nullptr) {
+    if (v != vertice) {
+      std::cout << "Salida: " << grafo.Etiqueta(vertice) << "\t";
+      std::cout << "Llegada: " << grafo.Etiqueta(v) << std::endl;
+      crearTabla(grafo, vertice, v, solucion, 0);
+      std::cout << std::endl;
+    }
+    v = grafo.SiguienteVertice(v);
+  }
+}
+
 void outputFloyd(Matriz(Vertice*)& solucion, std::vector<Vertice*>& vertices) {
   for (int i = 0; i < vertices.size(); i++) {
     std::cout << "\t" << vertices[i]->etiqueta;
@@ -54,10 +76,48 @@ void outputFloyd(Matriz(Vertice*)& solucion, std::vector<Vertice*>& vertices) {
       if (solucion[i][j] != nullptr) {
         std::cout << solucion[i][j]->etiqueta << "\t";
       } else {
-        std::cout << "null" << "\t";
+        std::cout << "-" << "\t";
       }
     }
     std::cout << std::endl;
+  }
+}
+
+void outputN_VecesDijkstra(Grafo& grafo, std::map<Vertice*, std::map<Vertice*, Vertice*>> solucion) {
+  Vertice* v = grafo.PrimerVertice();
+  while (v != nullptr) {
+    std::cout << "\t" << grafo.Etiqueta(v);
+    v = grafo.SiguienteVertice(v);
+  }
+  std::cout << std:: endl;
+  Vertice* v1 = grafo.PrimerVertice();
+  while (v1 != nullptr) {
+    std::cout << grafo.Etiqueta(v1) << "\t";
+    Vertice* v2 = grafo.PrimerVertice();
+    while (v2 != nullptr) {
+      if (v1 != v2) {
+        if (solucion[v1][v2] == v1) {
+          std::cout << "-" << "\t";
+        } else {
+          std::cout << grafo.Etiqueta(solucion[v1][v2]) << "\t";
+        }
+      } else {
+        std::cout << "-" << "\t";
+      }
+      v2 = grafo.SiguienteVertice(v2);
+    }
+    v1 = grafo.SiguienteVertice(v1);
+    std::cout << std::endl;
+  }
+}
+
+void outputPrim(Grafo& grafo, std::map<Vertice*, Vertice*> solucion) {
+  Vertice* v = grafo.PrimerVertice();
+  v = grafo.SiguienteVertice(v);
+  while (v != nullptr) {
+    std::cout << grafo.Etiqueta(solucion[v]) << "\t->\t"
+      << grafo.Etiqueta(v) << std::endl;
+    v = grafo.SiguienteVertice(v);
   }
 }
 
