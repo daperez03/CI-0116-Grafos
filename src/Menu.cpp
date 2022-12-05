@@ -105,7 +105,7 @@ void Peso(Grafo& grafo) {
 
 void PrimerVertice(Grafo& grafo) {
   Vertice* vertice = grafo.PrimerVertice();
-  output("Primer vertice", vertice);
+  output("Primer vertice", grafo, vertice);
   output();
 }
 
@@ -114,7 +114,7 @@ void SiguienteVertice(Grafo& grafo) {
   char etiqueta;
   input<char>("Indique el vertice anterior", etiqueta);
   Vertice* siguiente = grafo.SiguienteVertice(buscarVertice(grafo, etiqueta));
-  output("Siguiente vertice", siguiente);
+  output("Siguiente vertice", grafo, siguiente);
   output();
 }
 
@@ -122,7 +122,7 @@ void PrimerVerticeAdyacente(Grafo& grafo) {
   char etiqueta;
   input<char>("Indique el vertice principal", etiqueta);
   Vertice* adyacente = grafo.PrimerVerticeAdyacente(buscarVertice(grafo, etiqueta));
-  output("Primer vertice adyacente", adyacente);
+  output("Primer vertice adyacente", grafo, adyacente);
   output();
 }
 
@@ -132,7 +132,7 @@ void SiguienteVerticeAdyacente(Grafo& grafo) {
   input<char>("Indique el vertice principal", vertice);
   input<char>("Indique el ultimo vertice adyacente", ultimoAdyacente);
   Vertice* siguienteAdyacente = grafo.SiguienteVerticeAdyacente(buscarVertice(grafo, vertice), buscarVertice(grafo, ultimoAdyacente));
-  output("Siguiente vertice adyacente", siguienteAdyacente);
+  output("Siguiente vertice adyacente", grafo, siguienteAdyacente);
   output();
 }
 
@@ -158,7 +158,7 @@ void Floyd(Grafo& grafo) {
   std::vector<Vertice*> vertices;
   Matriz(Vertice*) solucion;
   Floyd(grafo, solucion, vertices);
-  outputFloyd(solucion, vertices);
+  outputFloyd(grafo, solucion, vertices);
   output();
 }
 
@@ -181,7 +181,7 @@ void Kruskal(Grafo& grafo) {
   output("\t\t\tKruskal");
   std::vector<AristaKruskal> solucion;
   Kruskal(grafo, solucion);
-  outputKruskal(solucion);
+  outputKruskal(grafo, solucion);
   output();
 }
 

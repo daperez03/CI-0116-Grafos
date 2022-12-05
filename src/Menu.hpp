@@ -35,11 +35,11 @@ void output(const char* txt, int& lista) {
   std::cout << lista++ << ". " << txt << std::endl;
 }
 
-void output(const char* txt, Vertice* vertice) {
+void output(const char* txt, Grafo& grafo, Vertice* vertice) {
   if (vertice == nullptr)  {
     std::cout << std::endl << txt << ": " << "Null" << std::endl;
   } else {
-    std::cout << std::endl << txt << ": " << vertice->etiqueta << std::endl;
+    std::cout << std::endl << txt << ": " << grafo.Etiqueta(vertice) << std::endl;
   }
 }
 
@@ -65,16 +65,16 @@ void outputDijkstra(Grafo& grafo, Vertice* vertice, std::map<Vertice*, Vertice*>
   }
 }
 
-void outputFloyd(Matriz(Vertice*)& solucion, std::vector<Vertice*>& vertices) {
+void outputFloyd(Grafo& grafo, Matriz(Vertice*)& solucion, std::vector<Vertice*>& vertices) {
   for (int i = 0; i < vertices.size(); i++) {
-    std::cout << "\t" << vertices[i]->etiqueta;
+    std::cout << "\t" << grafo.Etiqueta(vertices[i]);
   }
   std::cout << std::endl;
   for (int i = 0; i < solucion.size(); ++i) {
-    std::cout << vertices[i]->etiqueta << "\t";
+    std::cout << grafo.Etiqueta(vertices[i]) << "\t";
     for (int j = 0; j < solucion[i].size(); ++j) {
       if (solucion[i][j] != nullptr) {
-        std::cout << solucion[i][j]->etiqueta << "\t";
+        std::cout << grafo.Etiqueta(solucion[i][j]) << "\t";
       } else {
         std::cout << "-" << "\t";
       }
@@ -121,9 +121,10 @@ void outputPrim(Grafo& grafo, std::map<Vertice*, Vertice*> solucion) {
   }
 }
 
-void outputKruskal(std::vector<AristaKruskal>& solucion) {
+void outputKruskal(Grafo& grafo, std::vector<AristaKruskal>& solucion) {
   for (int i = 0; i < solucion.size(); ++i) {
-    std::cout << solucion[i].salida->etiqueta << "->" << solucion[i].llegada->etiqueta << ": " << solucion[i].peso << std::endl;
+    std::cout << grafo.Etiqueta(solucion[i].salida) << "->"
+      << grafo.Etiqueta(solucion[i].llegada) << ": " << solucion[i].peso << std::endl;
   }
   std:: cout << std::endl;
 }
@@ -131,7 +132,8 @@ void outputKruskal(std::vector<AristaKruskal>& solucion) {
 void outputColorearGrafo(Grafo& grafo, ConjuntoDeConjuntos<Vertice*>& solucion) {
   Vertice* vertice = grafo.PrimerVertice();
   while (vertice != nullptr) {
-    std::cout << vertice->etiqueta << ": " << solucion.buscarElemento(vertice) << std::endl;
+    std::cout << grafo.Etiqueta(vertice) << ": "
+      << solucion.buscarElemento(vertice) << std::endl;
     vertice = grafo.SiguienteVertice(vertice);
   }
   std::cout << std::endl;
