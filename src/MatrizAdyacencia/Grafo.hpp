@@ -2,6 +2,8 @@
 #define GRAFOMATRIZADYACENCIA_H_
 #define M 20
 
+#define verticeNulo nullptr
+
 typedef struct Vertice {
   char etiqueta;
   int indiceVertice;
