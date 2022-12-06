@@ -1,2 +1,2 @@
-#include "./MatrizAdyacencia/Grafo.hpp"
-// #include "./ListaDeAdyacencia/Grafo.hpp"
+// #include "./MatrizAdyacencia/Grafo.hpp"
+#include "./ListaDeAdyacencia/Grafo.hpp"

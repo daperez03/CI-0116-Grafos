@@ -2,6 +2,7 @@
 #define GRAFO_HPP
 
 #define is_end(x) (x == nullptr)
+#define verticeNulo nullptr
 
 #include "Common.hpp"
 
