@@ -111,5 +111,10 @@ class Grafo {
   /// Requiere:  Grafo inicializado.
   /// Modifica: No modifica el grafo.
   int NumVertice();
+
+  /// Efecto: Indica si existe una arista.
+  /// Requiere:  Grafo inicializado.
+  /// Modifica: No modifica el grafo.
+  bool ExisteArista(Vertice* v1, Vertice* v2);
 };
 #endif
