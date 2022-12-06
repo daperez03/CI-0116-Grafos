@@ -1,7 +1,6 @@
 #include "Grafo.hpp"
 #include <iostream>
 #include <vector>
-#include "../BERA.hpp"
 
 void CircuitoHamiltonBEP(const int n, Vertice** solActual, Vertice** solMejor
   , Diccionario<Vertice*>& DDvisitados, int& pesoCaminoActual
@@ -100,39 +99,5 @@ void CircuitoHamilton(Grafo& grafo, R11<Vertice*, int>& r11) {
     std::cout << grafo.Etiqueta(bera.solMejor[0]) << std::endl;
   } else {
     std::cout << "No hay solucion" << std::endl;
-  }
-}
-
-void CopiarSolucion(int n, Vertice** solActual, Vertice** solMejor) {
-  for (int i = 0; i < n; ++i) {
-    solMejor[i] = solActual[i];
-  }
-}
-
-void CircuitoHamiltonBEP(const int n, Vertice** solActual, Vertice** solMejor
-  , Diccionario<Vertice*>& DDvisitados, int& pesoCaminoActual
-  , unsigned int& pesoMejorCamino, int i, Grafo& grafo) {
-  Vertice* vAdy = grafo.PrimerVerticeAdyacente(solActual[i - 2]);
-  DDvisitados.Agregar(solActual[i - 2]);
-  while (vAdy != verticeNulo) {
-    if (DDvisitados.Pertenece(vAdy) == DDvisitados.NotFound()) {
-      solActual[i - 1] = vAdy;
-      pesoCaminoActual += grafo.Peso(solActual[i - 2], vAdy);
-      if (i == n) {
-        if (grafo.ExisteArista(vAdy, solActual[0])) {
-          if (pesoMejorCamino > pesoCaminoActual +
-            grafo.Peso(vAdy, solActual[0])) {
-            pesoMejorCamino = pesoCaminoActual + grafo.Peso(vAdy, solActual[0]);
-            CopiarSolucion(n, solActual, solMejor);
-          }
-        }
-      } else {
-        CircuitoHamiltonBEP(n, solActual, solMejor , DDvisitados
-          , pesoCaminoActual ,pesoMejorCamino ,i + 1,grafo);
-      }
-      DDvisitados.Sacar(vAdy);
-      pesoCaminoActual -= grafo.Peso(solActual[i - 2], vAdy);
-    }
-    vAdy = grafo.SiguienteVerticeAdyacente(solActual[i - 2], vAdy);
   }
 }
