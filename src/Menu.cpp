@@ -190,14 +190,14 @@ void CHMC_BEP(Grafo& grafo) {
   Vertice* solMejor[grafo.NumVertice()];
   bool haySolucion = false;
   int menorPeso = CircuitoHamilton(grafo, solMejor, haySolucion);
-  output(menorPeso, "\t\t\tPeso");
   if (haySolucion) {
+    output(menorPeso, "Peso");
     for (int i = 0; i < grafo.NumVertice(); ++i) {
       std::cout << grafo.Etiqueta(solMejor[i]) << "->";
     }
     std::cout << grafo.Etiqueta(solMejor[0]) << std::endl;
   } else {
-    output("\t\t\tNo existe solucion al problema");
+    output("No existe solucion al problema");
   }
 
 }
@@ -214,12 +214,13 @@ void CHMC_BERA(Grafo& grafo) {
   BERA bera(grafo);
   bera.CircuitoHamiltonBERA(grafo.PrimerVertice());
   if (bera.encontreSolucion) {
+    output(menorPeso, "Peso");
     for (int i = 0; i < grafo.NumVertice(); ++i) {
       std::cout << grafo.Etiqueta(bera.solMejor[i]) << "->";
     }
     std::cout << grafo.Etiqueta(bera.solMejor[0]) << std::endl;
   } else {
-    output("\t\t\tNo existe solucion al problema");
+    output("No existe solucion al problema");
   }
 
 }
