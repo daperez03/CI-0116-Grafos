@@ -144,3 +144,11 @@ void Grafo::borrarArista(Vertice* vertice1, Vertice* vertice2) {
     }
   }
 }
+
+bool Grafo::ExisteArista(Vertice* v1, Vertice* v2) {
+  Arista* arista = v1->siguienteArista;
+  while (arista != nullptr && arista->verticeAdyacente != v2) {
+    arista = arista->siguienteArista;
+  }
+  return arista != nullptr;
+}
