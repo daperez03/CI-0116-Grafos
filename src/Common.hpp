@@ -33,8 +33,11 @@ class ConjuntoDeConjuntos {
 
   int buscarElemento(T elemento) {
     int identificador = -1;
+    auto notFound = setOfSets[0].end();
+
     for (int i = 0; i < this->setOfSets.capacity(); ++i) {
-      if (this->setOfSets[i].contains(elemento)) {
+      auto itSet = this->setOfSets[i].find(elemento);
+      if (itSet != notFound) {
         identificador = i;
         break;
       }

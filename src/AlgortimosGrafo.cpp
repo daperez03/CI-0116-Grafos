@@ -257,3 +257,64 @@ void ColorearGrafo(Grafo& grafo, ConjuntoDeConjuntos<Vertice*>& solucion) {
   ColorearVertice(grafo, grafo.PrimerVertice(), conjuntoDeConjuntos
     , VectorDeAdyacentes, solMejor, solucion);
 }
+
+//-------------------------------Ciurcuito Hamilton-----------------------------
+
+int CircuitoHamilton(Grafo& grafo, Vertice** solMejor, bool& haySolucion) {
+  // Arreglos de las soluciones
+  int n = grafo.NumVertice();
+  Vertice* solActual[n];
+  solActual[0] = grafo.PrimerVertice();
+  int pesoCaminoActual = 0;
+  unsigned int pesoMejorCamino = -1;
+  int contador = 0;
+  Diccionario<Vertice*> DDvisitados;
+  R11<Vertice*, int> r11;
+
+  Vertice* vertice = grafo.PrimerVertice();
+  while(vertice != verticeNulo) {
+    r11.AgregarRelacion(vertice, contador);
+    ++contador;
+    vertice = grafo.SiguienteVertice(vertice);
+  }
+
+  CircuitoHamiltonBEP(n, solActual, solMejor, DDvisitados, pesoCaminoActual
+    , pesoMejorCamino, 2, grafo, haySolucion);
+  
+  return pesoMejorCamino;
+}
+
+void CircuitoHamiltonBEP(const int n, Vertice** solActual, Vertice** solMejor
+  , Diccionario<Vertice*>& DDvisitados, int& pesoCaminoActual
+  , unsigned int& pesoMejorCamino, int i, Grafo& grafo, bool& haySolucion) {
+  Vertice* vAdy = grafo.PrimerVerticeAdyacente(solActual[i - 2]);
+  DDvisitados.Agregar(solActual[i - 2]);
+  while (vAdy != verticeNulo) {
+    if (DDvisitados.Pertenece(vAdy) == DDvisitados.NotFound()) {
+      solActual[i - 1] = vAdy;
+      pesoCaminoActual += grafo.Peso(solActual[i - 2], vAdy);
+      if (i == n) {
+        if (grafo.ExisteArista(vAdy, solActual[0])) {
+          if (pesoMejorCamino > pesoCaminoActual +
+            grafo.Peso(vAdy, solActual[0])) {
+            pesoMejorCamino = pesoCaminoActual + grafo.Peso(vAdy, solActual[0]);
+            CopiarSolucion(n, solActual, solMejor);
+            haySolucion = true;
+          }
+        }
+      } else {
+        CircuitoHamiltonBEP(n, solActual, solMejor , DDvisitados
+          , pesoCaminoActual ,pesoMejorCamino ,i + 1, grafo, haySolucion);
+      }
+      DDvisitados.Sacar(vAdy);
+      pesoCaminoActual -= grafo.Peso(solActual[i - 2], vAdy);
+    }
+    vAdy = grafo.SiguienteVerticeAdyacente(solActual[i - 2], vAdy);
+  }
+}
+
+void CopiarSolucion(int n, Vertice** solActual, Vertice** solMejor) {
+  for (int i = 0; i < n; ++i) {
+    solMejor[i] = solActual[i];
+  }
+}

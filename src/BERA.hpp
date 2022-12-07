@@ -1,8 +1,8 @@
-#ifndef _BERA_HPP
+#ifndef _BERA_HPP_
 #define _BERA_HPP_
 
-#include "Common/Diccionario.hpp"
-#include "Common/RII.hpp"
+#include "Diccionario.hpp"
+#include "RII.hpp"
 #include "Grafo.hpp"
 #include <vector>
 

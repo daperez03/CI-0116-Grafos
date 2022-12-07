@@ -187,6 +187,19 @@ void Kruskal(Grafo& grafo) {
 
 void CHMC_BEP(Grafo& grafo) {
   output("\t\t\tEncontrar el Circuito de Hamilton de Menor Costo(BEP)");
+  Vertice* solMejor[grafo.NumVertice()];
+  bool haySolucion = false;
+  int menorPeso = CircuitoHamilton(grafo, solMejor, haySolucion);
+  if (haySolucion) {
+    output(menorPeso, "Peso");
+    for (int i = 0; i < grafo.NumVertice(); ++i) {
+      std::cout << grafo.Etiqueta(solMejor[i]) << "->";
+    }
+    std::cout << grafo.Etiqueta(solMejor[0]) << std::endl;
+  } else {
+    output("No existe solucion al problema");
+  }
+
 }
 
 void ColorearGrafo(Grafo& grafo) {
@@ -197,7 +210,19 @@ void ColorearGrafo(Grafo& grafo) {
 }
 
 void CHMC_BERA(Grafo& grafo) {
-  output("\t\t\ttEncontrar el Circuito de Hamilton de Menor Costo(BERA)");
+  output("\t\t\tEncontrar el Circuito de Hamilton de Menor Costo(BERA)");
+  BERA bera(grafo);
+  bera.CircuitoHamiltonBERA(grafo.PrimerVertice());
+  if (bera.encontreSolucion) {
+    output(menorPeso, "Peso");
+    for (int i = 0; i < grafo.NumVertice(); ++i) {
+      std::cout << grafo.Etiqueta(bera.solMejor[i]) << "->";
+    }
+    std::cout << grafo.Etiqueta(bera.solMejor[0]) << std::endl;
+  } else {
+    output("No existe solucion al problema");
+  }
+
 }
 
 void responderUsuario(int opcion, Grafo& grafo) {
