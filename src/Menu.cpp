@@ -214,7 +214,7 @@ void CHMC_BERA(Grafo& grafo) {
   BERA bera(grafo);
   bera.CircuitoHamiltonBERA(grafo.PrimerVertice());
   if (bera.encontreSolucion) {
-    output(menorPeso, "Peso");
+    output(bera.pesoMejorCamino, "Peso");
     for (int i = 0; i < grafo.NumVertice(); ++i) {
       std::cout << grafo.Etiqueta(bera.solMejor[i]) << "->";
     }

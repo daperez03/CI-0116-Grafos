@@ -1,1 +1,1 @@
-g++ -std=c++20 src/AlgortimosGrafo.cpp src/test.cpp src/ListaDeAdyacencia/Grafo.cpp -o PruebaN#A#
+g++ -std=c++20 src/AlgortimosGrafo.cpp src/test.cpp src/ListaDeAdyacencia/Grafo.cpp src/BERA.cpp -o PruebaN#A#
